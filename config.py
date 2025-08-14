@@ -63,3 +63,46 @@ crypto = [
     "Toncoin",
     "TRON"
 ]
+
+commodities = [
+    "Brent Oil",
+    "WTI Crude Oil",
+    "Silver",
+    "Gold",
+    "Natural Gas",
+    "Palladium spot",
+    "Platinum spot"
+]
+
+indices = [
+    "100GBP",
+    "AUS 200",
+    "CAC 40",
+    "D30EUR",
+    "DJI30",
+    "E35EUR",
+    "E50EUR",
+    "F40EUR",
+    "JPN225",
+    "US100",
+    "SP500"
+]
+
+stocks = [
+    "Apple",
+    "American Express",
+    "Boeing Company",
+    "Cisco",
+    "FACEBOOK INC",
+    "Intel",
+    "Johnson & Johnson",
+    "McDonald's",
+    "Microsoft",
+    "Pfizer Inc",
+    "Tesla",
+    "ExxonMobil",
+    "Amazon",
+    "Alibaba",
+    "Citigroup Inc",
+    "FedEx"
+]
