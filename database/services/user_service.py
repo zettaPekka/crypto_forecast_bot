@@ -17,3 +17,9 @@ class UserService:
     
     async def get(self, tg_id: int) -> User | None:
         return await self.user_repo.get(tg_id)
+    
+    async def change_otc(self, tg_id) -> bool:
+        user = await self.get(tg_id)
+        user.otc = False if user.otc else True
+        await self.session.commit()
+        return user.otc

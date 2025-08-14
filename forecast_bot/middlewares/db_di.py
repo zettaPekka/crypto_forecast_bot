@@ -7,6 +7,8 @@ from database.services.user_service import UserService
 from database.repositories.user_repo import UserRepo
 from database.services.trader_data_service import TraderDataService
 from database.repositories.trader_data_repo import TraderDataRepo
+from database.services.stat_service import StatService
+from database.repositories.stat_repo import StatRepo
 from database.database import get_session
 
 
@@ -23,5 +25,8 @@ class DatabaseDI(BaseMiddleware):
             
             trader_data_service = TraderDataService(session, TraderDataRepo(session))
             data['trader_data_service'] = trader_data_service
+            
+            stat_service = StatService(session, StatRepo(session))
+            data['stat_service'] = stat_service
             
             return await handler(event, data)
