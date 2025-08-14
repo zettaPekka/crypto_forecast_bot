@@ -44,7 +44,17 @@ def currency_pairs_by_page(otc: bool, page: int):
     builder = InlineKeyboardBuilder()
     
     for pair in pairs[(page - 1) * 10: page * 10]:
-        builder.add(InlineKeyboardButton(text=pair, callback_data=f'pair_{pair}'))
-    builder.adjust(2)
+        builder.add(InlineKeyboardButton(text=f'{pair} {otc}', callback_data=f'get_forecast_{pair}'))
     
+    if page == 1:
+        builder.add(InlineKeyboardButton(text='👉', callback_data=f'currency_pairs_page_{page + 1}'))
+    elif page > len(pairs) // 10:
+        builder.add(InlineKeyboardButton(text=f'👈', callback_data=f'currency_pairs_page_{page - 1}'))
+    else:
+        builder.add(InlineKeyboardButton(text='👉', callback_data=f'currency_pairs_page_{page + 1}'))
+        builder.add(InlineKeyboardButton(text=f'👈', callback_data=f'currency_pairs_page_{page - 1}'))
+    
+    builder.add(InlineKeyboardButton(text=f'Меню', callback_data='menu'))
+    
+    builder.adjust(2)
     return builder.as_markup()

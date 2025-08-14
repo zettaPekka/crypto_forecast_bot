@@ -23,17 +23,44 @@ router.callback_query.middleware(DatabaseDI())
 async def forecast_menu(callback: CallbackQuery, user_service: UserService):
     await callback.answer()
     
+    try:
+        await callback.message.delete()
+    except:
+        pass
+    
     user = await user_service.get(callback.from_user.id)
     
     await callback.message.answer('Меню',
                                     reply_markup=user_kbs.forecast_menu(user.otc))
 
 
-@router.callback_query(F.data == 'currency_pairs')
+@router.callback_query(F.data.startswith('currency_pairs'))
 async def currency_pairs(callback: CallbackQuery, user_service: UserService):
     await callback.answer()
     
     user = await user_service.get(callback.from_user.id)
     
-    await callback.message.answer('выберите пару',
+    if len(callback.data.split('_')) < 3: # страница не указана
+        await callback.message.edit_text('выберите пару',
                                     reply_markup=user_kbs.currency_pairs_by_page(user.otc, 1))
+        return
+    
+    page = int(callback.data.split('_')[-1])
+    await callback.message.edit_text('выберите пару',
+                                    reply_markup=user_kbs.currency_pairs_by_page(user.otc, page))
+
+
+@router.callback_query(F.data.startswith('currency_pairs'))
+async def currency_pairs(callback: CallbackQuery, user_service: UserService):
+    await callback.answer()
+    
+    user = await user_service.get(callback.from_user.id)
+    
+    if len(callback.data.split('_')) < 3: # страница не указана
+        await callback.message.edit_text('выберите пару',
+                                    reply_markup=user_kbs.currency_pairs_by_page(user.otc, 1))
+        return
+    
+    page = int(callback.data.split('_')[-1])
+    await callback.message.edit_text('выберите пару',
+                                    reply_markup=user_kbs.currency_pairs_by_page(user.otc, page))
