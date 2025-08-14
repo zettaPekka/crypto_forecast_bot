@@ -29,13 +29,14 @@ async def start_handler(message: Message, user_service: UserService, trader_data
     
     if not trader_data:
         image = FSInputFile('images/photo.jpg')
-        await message.answer_photo(image, caption='Вы еще не зарегестрированы, нажмите кнопку далее чтобы получить доступ',
+        text = "<b>Добро пожаловать в торгового робота JIKO TRADE!</b>\n\n<b>Для получения доступа нажми на кнопку ниже.</b>\n\n<b>Что вы получаете:\n<blockquote>✅ Сигналы на выбранный актив с любым периодом\n✅ Возможность выбора OTC\n✅ Актуальные новости\n✅ Честную и открытую статистику\n✅ Новые промокоды и бонусы</blockquote></b>\n\n<b>Скорей присоединяйся 👇</b>"
+        await message.answer_photo(image, caption=text,
                                 reply_markup=user_kbs.start_left_kb)
         return
 
     if trader_data.balance > 0:
         image = FSInputFile('images/photo.jpg')
-        await message.answer_photo(image, caption='Вы уже зарегестрированы и у вас есть доступ к функциям',
+        await message.answer_photo(image, caption='<b>У вас есть полный доступ к функционалу торгового робота. Для продолжения используйте кнопки ниже или команды:\n\n<blockquote>/news – 📰 Новости \n/forecast – 📊 Получить прогноз</blockquote></b>',
                                     reply_markup=user_kbs.main_kb)
         return
     
@@ -48,7 +49,8 @@ async def start_handler(message: Message, user_service: UserService, trader_data
 async def get_access(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
     image = FSInputFile('images/photo.jpg')
-    image = InputMediaPhoto(media=image, caption='скинь id')
+    text = "<b>Для получения доступа необходимо создать аккаунт по кнопке ниже (обязательно, иначе бот не сможет подтвердить доступ) или по ссылке.\nА так же внести депозит на любую сумму\n\nПосле создания аккаунта напиши свой трейдер-ID ниже\n\nПромо – <code>JIKO60</code> (+60% к пополнению)</b>"
+    image = InputMediaPhoto(media=image, caption=text)
     await callback.message.edit_media(image)
     await state.set_state(UserDataState.trader_id)
 
@@ -64,7 +66,7 @@ async def check_trader_id(message: Message, trader_data_service: TraderDataServi
         await state.clear()
         return
     
-    await message.answer('не тот id')
+    await message.answer('<b>id не тот</b>')
 
 
 @router.callback_query(F.data == 'check_dep')
@@ -105,6 +107,22 @@ async def promo(callback: CallbackQuery):
         message_text += f'Время: {n["time"]}\nВалюта:{n["currency"]}\nСобытие {n["title"]}\n\n'
     
     await callback.message.answer(message_text)
+
+
+@router.message(Command('news'))
+async def promo(message: Message, trader_data_service: TraderDataService):
+    trader_data = await trader_data_service.get_by_tg_id(message.from_user.id)
+    if not trader_data:
+        await message.answer('<b>У вас еще нет доступа к этому функционалу ❌ </b>')
+        return
+    
+    news = await get_current_news()
+
+    message_text = ''
+    for n in news:
+        message_text += f'Время: {n["time"]}\nВалюта:{n["currency"]}\nСобытие {n["title"]}\n\n'
+    
+    await message.answer(message_text)
 
 
 @router.callback_query(F.data == 'statistics')
