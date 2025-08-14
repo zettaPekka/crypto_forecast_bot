@@ -9,6 +9,9 @@ import math
 from config import *
 
 
+reg_kb = InlineKeyboardMarkup(inline_keyboard=[
+    [InlineKeyboardButton(text='Создать аккаунт', url='https://u3.shortink.io/pwa?utm_campaign=823980&utm_source=affiliate&utm_medium=sr&a=l77xqSNQFpYcEM&ac=jikotrade')]
+])
 
 start_left_kb = InlineKeyboardMarkup(inline_keyboard=[
     [InlineKeyboardButton(text='Получить доступ', callback_data='get_access'),

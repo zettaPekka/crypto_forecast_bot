@@ -49,7 +49,7 @@ async def start_handler(message: Message, user_service: UserService, trader_data
 async def get_access(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
     image = FSInputFile('images/photo.jpg')
-    text = "<b>Для получения доступа необходимо создать аккаунт по кнопке ниже (обязательно, иначе бот не сможет подтвердить доступ) или по ссылке.\nА так же внести депозит на любую сумму\n\nПосле создания аккаунта напиши свой трейдер-ID ниже\n\nПромо – <code>JIKO60</code> (+60% к пополнению)</b>"
+    text = "<b>Для получения доступа необходимо создать аккаунт по кнопке ниже (обязательно, иначе бот не сможет подтвердить доступ) или по ссылке.\n\nПосле создания аккаунта напиши свой трейдер-ID ниже\n\n<blockquote>Промо – <code>KRX068</code> (+60% к пополнению)</blockquote></b>"
     image = InputMediaPhoto(media=image, caption=text)
     await callback.message.edit_media(image)
     await state.set_state(UserDataState.trader_id)
@@ -61,12 +61,13 @@ async def check_trader_id(message: Message, trader_data_service: TraderDataServi
     res = await trader_data_service.check_trader_id(trader_id, message.from_user.id)
     
     if res:
-        await message.answer('привязано, теперь пополни баланс и проверь по кнопке ниже',
+        await message.answer(f'<b>✔ Отлично ID {trader_id} привязан! Теперь необходимо пополнить баланс на любую сумму, так как бот выдает доступ только активным аккаунтам\n\nПри пополнении можешь использовать промокод <code>KRX068</code> который дает +60% к пополнению!\nПосле того как пополнил баланс жми кнопку ниже</b>',
                                 reply_markup=user_kbs.check_dep_kb)
         await state.clear()
         return
     
-    await message.answer('<b>id не тот</b>')
+    await message.answer('<b>❌ К сожалению не удалось подвердить ID, скорее всего вы уже ранее создали аккаунт, в таком случае необходимо создать новый и прислать новый ID</b>',
+                            reply_markup=user_kbs.reg_kb)
 
 
 @router.callback_query(F.data == 'check_dep')
@@ -77,11 +78,11 @@ async def check_dep(callback: CallbackQuery, trader_data_service: TraderDataServ
     
     if trader_data.balance > 0:
         image = FSInputFile('images/photo.jpg')
-        await callback.message.answer_photo(image, caption='успешно, у вас есть доступ к функциям',
+        await callback.message.answer_photo(image, caption='<b>Успешно! Теперь у вас есть полный доступ к торговому боту, можете получать прогнозы 24/7 ✨\n\n<blockquote>/news – 📰 Новости \n/forecast – 📊 Получить прогноз</blockquote></b>',
                                             reply_markup=user_kbs.main_kb)
         return
     
-    await callback.message.answer('Вы не пополнили баланс',
+    await callback.message.answer('<b>Кажется вы не пополнили баланс на привязанном аккаунте, после пополнения проверьте еще раз по кнопке 👇</b>',
                                     reply_markup=user_kbs.check_dep_kb)
 
 
@@ -104,7 +105,7 @@ async def promo(callback: CallbackQuery):
 
     message_text = ''
     for n in news:
-        message_text += f'Время: {n["time"]}\nВалюта:{n["currency"]}\nСобытие {n["title"]}\n\n'
+        message_text += f'<b>⏳ Время: <i>{n["time"]}</i>\n💲 Валюта:<i>{n["currency"]}</i>\n🗞 Событие: <i>{n["title"]}</i></b>\n\n'
     
     await callback.message.answer(message_text)
 
@@ -120,7 +121,7 @@ async def promo(message: Message, trader_data_service: TraderDataService):
 
     message_text = ''
     for n in news:
-        message_text += f'Время: {n["time"]}\nВалюта:{n["currency"]}\nСобытие {n["title"]}\n\n'
+        message_text += f'<b>⏳ Время: <i>{n["time"]}</i>\n💲 Валюта:<i>{n["currency"]}</i>\n🗞 Событие: <i>{n["title"]}</i></b>\n\n'
     
     await message.answer(message_text)
 
@@ -146,9 +147,9 @@ async def statistics(callback: CallbackQuery, stat_service: StatService):
     
     last_week = await stat_service.get_last_week()
     
-    message_text = ''
+    message_text = '<b>Открытая статистика за неделю</b>\n\n'
     for day in last_week:
-        message_text += f'Дата: {day.date}\nПрофиты: {day.profit}\nМинусы: {day.loss}\nВозврат: {day.break_even}\nВинрейт: {round(day.profit / (day.loss + day.profit) * 100)}%\n\n'
+        message_text += f'🕐 Дата: <i>{day.date}</i>\n✔ Профиты: <i>{day.profit}</i>\n❌ Минусы: <i>{day.loss}</i>\n♻️ Возврат: <i>{day.break_even}</i>\n<blockquote>Винрейт: {round(day.profit / (day.loss + day.profit) * 100)}%</blockquote>\n\n'
     
     await callback.message.answer(message_text)
 
@@ -174,7 +175,7 @@ async def menu(callback: CallbackQuery):
         await callback.message.delete()
     except:
         pass
-    await callback.message.answer_photo(image, caption='у вас есть доступ к функциям',
+    await callback.message.answer_photo(image, caption='<b>У вас есть полный доступ к функционалу торгового робота. Для продолжения используйте кнопки ниже или команды:\n\n<blockquote>/news – 📰 Новости \n/forecast – 📊 Получить прогноз</blockquote></b>',
                                         reply_markup=user_kbs.main_kb)
 
 
