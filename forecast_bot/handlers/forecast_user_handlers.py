@@ -1,19 +1,15 @@
 from aiogram import Router, F
-from aiogram.filters import CommandStart, Command
-from aiogram.types import Message, ContentType, CallbackQuery, FSInputFile, InputMediaPhoto
+from aiogram.filters import Command
+from aiogram.types import Message, CallbackQuery, FSInputFile
 from aiogram.fsm.context import FSMContext
 
 from forecast_bot.middlewares.db_di import DatabaseDI
 from database.services.user_service import UserService
 from database.services.trader_data_service import TraderDataService
-from database.services.stat_service import StatService
-from forecast_bot.states.user_states import UserDataState
 from forecast_bot.keyboards import user_kbs
-from parse.news_parser import get_current_news
 
 from random import randint
 from asyncio import sleep
-from datetime import datetime, timezone, timedelta
 
 
 router = Router()

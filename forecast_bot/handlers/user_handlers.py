@@ -177,5 +177,3 @@ async def menu(callback: CallbackQuery):
         pass
     await callback.message.answer_photo(image, caption='<b>У вас есть полный доступ к функционалу торгового робота. Для продолжения используйте кнопки ниже или команды:\n\n<blockquote>/news – 📰 Новости \n/forecast – 📊 Получить прогноз</blockquote></b>',
                                         reply_markup=user_kbs.main_kb)
-
-

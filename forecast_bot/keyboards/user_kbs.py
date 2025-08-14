@@ -1,8 +1,5 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from database.database import get_session
-from database.repositories.user_repo import UserRepo
-from database.services.user_service import UserService
 
 import math
 
