@@ -10,6 +10,7 @@ from database.services.stat_service import StatService
 from forecast_bot.states.user_states import UserDataState
 from forecast_bot.keyboards import user_kbs
 from parse.news_parser import get_current_news
+from config import promocodes
 
 from random import randint
 from datetime import datetime, timezone, timedelta
@@ -49,7 +50,7 @@ async def start_handler(message: Message, user_service: UserService, trader_data
 async def get_access(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
     image = FSInputFile('images/photo.jpg')
-    text = "<b>Для получения доступа необходимо создать аккаунт по кнопке ниже (обязательно, иначе бот не сможет подтвердить доступ) или по ссылке.\n\nПосле создания аккаунта напиши свой трейдер-ID ниже\n\n<blockquote>Промо – <code>KRX068</code> (+60% к пополнению)</blockquote></b>"
+    text = "<b>Для получения доступа необходимо создать аккаунт по кнопке ниже (обязательно, иначе бот не сможет подтвердить доступ) или по ссылке.\n\nПосле создания аккаунта напиши свой трейдер-ID ниже\n\n<blockquote>Промо – <code>HJM627</code> (+60% к пополнению)</blockquote></b>"
     image = InputMediaPhoto(media=image, caption=text)
     await callback.message.edit_media(image)
     await state.set_state(UserDataState.trader_id)
@@ -61,7 +62,7 @@ async def check_trader_id(message: Message, trader_data_service: TraderDataServi
     res = await trader_data_service.check_trader_id(trader_id, message.from_user.id)
     
     if res:
-        await message.answer(f'<b>✔ Отлично ID {trader_id} привязан! Теперь необходимо пополнить баланс на любую сумму, так как бот выдает доступ только активным аккаунтам\n\nПри пополнении можешь использовать промокод <code>KRX068</code> который дает +60% к пополнению!\nПосле того как пополнил баланс жми кнопку ниже</b>',
+        await message.answer(f'<b>✔ Отлично ID {trader_id} привязан! Теперь необходимо пополнить баланс на любую сумму, так как бот выдает доступ только активным аккаунтам\n\nПри пополнении можешь использовать промокод <code>HJM627</code> который дает +60% к пополнению!\nПосле того как пополнил баланс жми кнопку ниже</b>',
                                 reply_markup=user_kbs.check_dep_kb)
         await state.clear()
         return
@@ -89,13 +90,11 @@ async def check_dep(callback: CallbackQuery, trader_data_service: TraderDataServ
 @router.callback_query(F.data == 'promo')
 async def promo(callback: CallbackQuery):
     await callback.answer()
-    await callback.message.answer('Промокоды: ...')
-
-
-@router.callback_query(F.data == 'learning')
-async def promo(callback: CallbackQuery):
-    await callback.answer()
-    await callback.message.answer('Обучение')
+    
+    promo_text = ''
+    for promo, bonus in promocodes.items():
+        promo_text += f'⭐️ <code>{promo}</code> - {bonus}%\n'
+    await callback.message.answer(f'<b>Список актуальных промокодов при пополнении от 50$:\n\n{promo_text}\n<blockquote>Указав промокод при пополнении вы получите дополнительный баланс для торвговли пропорциональный указаному проценту</blockquote></b>')
 
 
 @router.callback_query(F.data == 'news')
@@ -140,15 +139,15 @@ async def statistics(callback: CallbackQuery, stat_service: StatService):
     if not yesterday_stat or yesterday_stat.date != yesterday_date:
         await stat_service.add(
             yesterday_date,
-            randint(710, 1010),
-            randint(110, 310),
-            randint(5, 30)
+            randint(610, 810),
+            randint(110, 350),
+            randint(1, 30)
         )
     
     last_week = await stat_service.get_last_week()
     
     message_text = '<b>Открытая статистика за неделю</b>\n\n'
-    for day in last_week:
+    for day in last_week[::-1]:
         message_text += f'🕐 Дата: <i>{day.date}</i>\n✔ Профиты: <i>{day.profit}</i>\n❌ Минусы: <i>{day.loss}</i>\n♻️ Возврат: <i>{day.break_even}</i>\n<blockquote>Винрейт: {round(day.profit / (day.loss + day.profit) * 100)}%</blockquote>\n\n'
     
     await callback.message.answer(message_text)

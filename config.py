@@ -106,3 +106,10 @@ stocks = [
     "Citigroup Inc",
     "FedEx"
 ]
+
+promocodes = {
+    'HJM627': '60',
+    'MFJ914':'60',
+    'IGE413':'50',
+    'NEB662':'25'
+}

@@ -7,7 +7,7 @@ from config import *
 
 
 reg_kb = InlineKeyboardMarkup(inline_keyboard=[
-    [InlineKeyboardButton(text='Создать аккаунт', url='https://u3.shortink.io/pwa?utm_campaign=823980&utm_source=affiliate&utm_medium=sr&a=l77xqSNQFpYcEM&ac=jikotrade')]
+    [InlineKeyboardButton(text='Создать аккаунт', url='https://u3.shortink.io/pwa?utm_campaign=825395&utm_source=affiliate&utm_medium=sr&a=e0yBQmescshMRL&ac=j1ko')]
 ])
 
 start_left_kb = InlineKeyboardMarkup(inline_keyboard=[
@@ -24,7 +24,7 @@ main_kb = InlineKeyboardMarkup(inline_keyboard=[
     [InlineKeyboardButton(text='Новости', callback_data='news')],
     [InlineKeyboardButton(text='Промокоды', callback_data='promo')],
     [InlineKeyboardButton(text='Статистика', callback_data='statistics')],
-    [InlineKeyboardButton(text='Обучение', callback_data='learning')]
+    [InlineKeyboardButton(text='Обучение', url='https://dsfsfsdf.re')]
 ])
 
 def forecast_menu(otc: bool):

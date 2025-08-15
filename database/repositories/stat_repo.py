@@ -13,7 +13,9 @@ class StatRepo:
         self.session.add(trader_data)
     
     async def get_last_week(self):
-        return await self.session.scalars(select(Statistics).order_by(desc(Statistics.id)).limit(7))
+        days = await self.session.execute(select(Statistics).order_by(desc(Statistics.id)).limit(7))
+        days = days.scalars().all()
+        return days
     
     async def get_last_day(self):
         return await self.session.scalar(select(Statistics).order_by(desc(Statistics.id)).limit(1))
