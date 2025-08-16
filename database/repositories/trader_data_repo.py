@@ -34,3 +34,13 @@ class TraderDataRepo:
     async def link_ids(self, trader_id: int, tg_id: int):
         trader_data = await self.get(trader_id)
         trader_data.tg_id = tg_id
+    
+    async def get_reg_traders(self):
+        traders = await self.session.execute(select(TraderData).where(TraderData.tg_id))
+        traders = traders.scalars().all()
+        return traders
+    
+    async def get_active_traders(self):
+        traders = await self.session.execute(select(TraderData).where(TraderData.balance > 0))
+        traders = traders.scalars().all()
+        return traders

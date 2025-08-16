@@ -33,3 +33,9 @@ class TraderDataService:
         await self.trader_data_repo.link_ids(trader_id, tg_id)
         await self.session.commit()
         return True
+
+    async def get_reg_traders(self):
+        return await self.trader_data_repo.get_reg_traders()
+    
+    async def get_active_traders(self):
+        return await self.trader_data_repo.get_active_traders()

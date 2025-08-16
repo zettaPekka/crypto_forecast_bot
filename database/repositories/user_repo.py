@@ -1,4 +1,5 @@
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select
 
 from database.models import User
 
@@ -13,3 +14,8 @@ class UserRepo:
     
     async def get(self, tg_id: int):
         return await self.session.get(User, tg_id)
+    
+    async def get_all_users(self):
+        users = await self.session.execute(select(User))
+        users = users.scalars().all()
+        return users

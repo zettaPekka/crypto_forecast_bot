@@ -3,6 +3,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from database.models import User
 from database.repositories.user_repo import UserRepo
 
+from typing import Literal
+
 
 class UserService:
     def __init__(self, session: AsyncSession, user_repo: UserRepo):
@@ -23,3 +25,6 @@ class UserService:
         user.otc = False if user.otc else True
         await self.session.commit()
         return user.otc
+
+    async def get_all_users(self):
+        return await self.user_repo.get_all_users()
