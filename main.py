@@ -21,7 +21,7 @@ async def run_bot():
     await dp.start_polling(bot)
 
 async def run_app():
-    config = uvicorn.Config('main:app', host='127.0.0.1', port=8000)
+    config = uvicorn.Config('main:app', host='0.0.0.0', port=8120)
     server = uvicorn.Server(config)
     await server.serve()
 
