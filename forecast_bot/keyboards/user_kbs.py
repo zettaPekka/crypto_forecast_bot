@@ -1,12 +1,12 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.utils.keyboard import InlineKeyboardBuilder
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 import math
 
 from config import *
 
 
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 reg_kb = InlineKeyboardMarkup(inline_keyboard=[
     [InlineKeyboardButton(text='🚀 Создать аккаунт', url=ref_link)],
