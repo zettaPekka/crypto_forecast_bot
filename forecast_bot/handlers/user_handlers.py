@@ -10,7 +10,7 @@ from database.services.stat_service import StatService
 from forecast_bot.states.user_states import UserDataState
 from forecast_bot.keyboards import user_kbs
 from parse.news_parser import get_current_news
-from config import promocodes
+from config import promocodes, start_promo, project_name
 
 from random import randint
 from datetime import datetime, timezone, timedelta
@@ -30,7 +30,7 @@ async def start_handler(message: Message, user_service: UserService, trader_data
     
     if not trader_data:
         image = FSInputFile('images/jikotrade.jpg')
-        text = "<b>Добро пожаловать в торгового робота JIKO TRADE!</b>\n\n<b>Для получения доступа нажми на кнопку ниже.</b>\n\n<b>Что вы получаете:\n<blockquote>✅ Сигналы на выбранный актив с любым периодом\n✅ Возможность выбора OTC\n✅ Актуальные новости\n✅ Честную и открытую статистику\n✅ Новые промокоды и бонусы</blockquote></b>\n\n<b>Скорей присоединяйся 👇</b>"
+        text = f"<b>Добро пожаловать в торгового робота {project_name} TRADE!</b>\n\n<b>Для получения доступа нажми на кнопку ниже.</b>\n\n<b>Что вы получаете:\n<blockquote>✅ Сигналы на выбранный актив с любым периодом\n✅ Возможность выбора OTC\n✅ Актуальные новости\n✅ Честную и открытую статистику\n✅ Новые промокоды и бонусы</blockquote></b>\n\n<b>Скорей присоединяйся 👇</b>"
         await message.answer_photo(image, caption=text,
                                 reply_markup=user_kbs.start_left_kb)
         return
@@ -50,7 +50,7 @@ async def start_handler(message: Message, user_service: UserService, trader_data
 async def get_access(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
     image = FSInputFile('images/reg.jpg')
-    text = "<b>Для получения доступа необходимо создать аккаунт по кнопке ниже (обязательно, иначе бот не сможет подтвердить доступ) или по ссылке.\n\nПосле создания аккаунта напиши свой трейдер-ID ниже\n\n<blockquote>Промо – <code>HJM627</code> (+60% к пополнению)</blockquote></b>"
+    text = f"<b>Для получения доступа необходимо создать аккаунт по кнопке ниже (обязательно, иначе бот не сможет подтвердить доступ) или по ссылке.\n\nПосле создания аккаунта напиши свой трейдер-ID ниже\n\n<blockquote>Промо – <code>{start_promo}</code> (+60% к пополнению)</blockquote></b>"
     image = InputMediaPhoto(media=image, caption=text)
     await callback.message.edit_media(image)
     await state.set_state(UserDataState.trader_id)
@@ -62,7 +62,7 @@ async def check_trader_id(message: Message, trader_data_service: TraderDataServi
     res = await trader_data_service.check_trader_id(trader_id, message.from_user.id)
     
     if res:
-        await message.answer(f'<b>✔ Отлично ID {trader_id} привязан! Теперь необходимо пополнить баланс на любую сумму, так как бот выдает доступ только активным аккаунтам\n\nПри пополнении можешь использовать промокод <code>HJM627</code> который дает +60% к пополнению!\nПосле того как пополнил баланс жми кнопку ниже</b>',
+        await message.answer(f'<b>✔ Отлично ID {trader_id} привязан! Теперь необходимо пополнить баланс на любую сумму, так как бот выдает доступ только активным аккаунтам\n\nПри пополнении можешь использовать промокод <code>{start_promo}</code> который дает +60% к пополнению!\nПосле того как пополнил баланс жми кнопку ниже</b>',
                                 reply_markup=user_kbs.check_dep_kb)
         await state.clear()
         return

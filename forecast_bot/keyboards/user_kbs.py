@@ -9,7 +9,7 @@ from config import *
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 reg_kb = InlineKeyboardMarkup(inline_keyboard=[
-    [InlineKeyboardButton(text='🚀 Создать аккаунт', url='https://u3.shortink.io/pwa?utm_campaign=825395&utm_source=affiliate&utm_medium=sr&a=e0yBQmescshMRL&ac=j1ko')]
+    [InlineKeyboardButton(text='🚀 Создать аккаунт', url=ref_link)]
 ])
 
 start_left_kb = InlineKeyboardMarkup(inline_keyboard=[
@@ -26,7 +26,7 @@ main_kb = InlineKeyboardMarkup(inline_keyboard=[
     [InlineKeyboardButton(text='📰 Новости', callback_data='news')],
     [InlineKeyboardButton(text='🎁 Промокоды', callback_data='promo')],
     [InlineKeyboardButton(text='📊 Статистика', callback_data='statistics')],
-    [InlineKeyboardButton(text='🎓 Обучение', url='https://dsfsfsdf.re')]
+    [InlineKeyboardButton(text='🎓 Обучение', url=article_link)]
 ])
 
 
