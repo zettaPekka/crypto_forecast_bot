@@ -9,12 +9,13 @@ from config import *
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 reg_kb = InlineKeyboardMarkup(inline_keyboard=[
-    [InlineKeyboardButton(text='🚀 Создать аккаунт', url=ref_link)]
+    [InlineKeyboardButton(text='🚀 Создать аккаунт', url=ref_link)],
+    [InlineKeyboardButton(text='🆘 Помощь', url='https://t.me/jiko_trade')]
 ])
 
 start_left_kb = InlineKeyboardMarkup(inline_keyboard=[
     [InlineKeyboardButton(text='🔓 Получить доступ', callback_data='get_access'),
-        InlineKeyboardButton(text='🆘 Помощь', url='https://t.me/jiko_trade')]
+        InlineKeyboardButton(text='🎓 Обучение', url=article_link)]
 ])
 
 check_dep_kb = InlineKeyboardMarkup(inline_keyboard=[

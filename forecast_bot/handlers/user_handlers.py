@@ -10,7 +10,7 @@ from database.services.stat_service import StatService
 from forecast_bot.states.user_states import UserDataState
 from forecast_bot.keyboards import user_kbs
 from parse.news_parser import get_current_news
-from config import promocodes, start_promo, project_name
+from config import promocodes, start_promo, project_name, ref_link
 
 from random import randint
 from datetime import datetime, timezone, timedelta
@@ -30,7 +30,7 @@ async def start_handler(message: Message, user_service: UserService, trader_data
     
     if not trader_data:
         image = FSInputFile('images/jikotrade.jpg')
-        text = f"<b>Добро пожаловать в торгового робота {project_name} TRADE!</b>\n\n<b>Для получения доступа нажми на кнопку ниже.</b>\n\n<b>Что вы получаете:\n<blockquote>✅ Сигналы на выбранный актив с любым периодом\n✅ Возможность выбора OTC\n✅ Актуальные новости\n✅ Честную и открытую статистику\n✅ Новые промокоды и бонусы</blockquote></b>\n\n<b>Скорей присоединяйся 👇</b>"
+        text = f"<b>Добро пожаловать в торгового робота {project_name} TRADE!</b>\n\n<b>Перед тем как получить доступ рекомендуем прочитать обучающую статью ниже\n\nДля получения доступа нажми на соответствующую кнопку ниже.</b>\n\n<b>Что вы получаете:\n<blockquote>✅ Сигналы на выбранный актив с любым периодом\n✅ Возможность выбора OTC\n✅ Актуальные новости\n✅ Честную и открытую статистику\n✅ Новые промокоды и бонусы</blockquote></b>\n\n<b>Скорей присоединяйся 👇</b>"
         await message.answer_photo(image, caption=text,
                                 reply_markup=user_kbs.start_left_kb)
         return
@@ -50,9 +50,9 @@ async def start_handler(message: Message, user_service: UserService, trader_data
 async def get_access(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
     image = FSInputFile('images/reg.jpg')
-    text = f"<b>Для получения доступа необходимо создать аккаунт по кнопке ниже (обязательно, иначе бот не сможет подтвердить доступ) или по ссылке.\n\nПосле создания аккаунта напиши свой трейдер-ID ниже\n\n<blockquote>Промо – <code>{start_promo}</code> (+60% к пополнению)</blockquote></b>"
+    text = f"<b>Для получения доступа необходимо создать аккаунт по кнопке ниже (обязательно, иначе бот не сможет подтвердить доступ) или по <a href='{ref_link}'>ссылке</a>.\n\nПосле создания аккаунта напиши свой трейдер-ID ниже\n\n<blockquote>Промо – <code>{start_promo}</code> (+60% к пополнению)</blockquote></b>"
     image = InputMediaPhoto(media=image, caption=text)
-    await callback.message.edit_media(image)
+    await callback.message.edit_media(image, reply_markup=user_kbs.reg_kb)
     await state.set_state(UserDataState.trader_id)
 
 
