@@ -51,14 +51,23 @@ async def currency_pairs(callback: CallbackQuery, user_service: UserService):
     user = await user_service.get(callback.from_user.id)
     
     if len(callback.data.split('_')) < 3: # страница не указана
-        await callback.message.edit_text('<b>Теперь необходимо выбрать точный актив для анализа.\n\n<blockquote>Примечание: сначала проверьте наличие актива на платформе Pocket Option, а затем получайте прогноз ✅</blockquote></b>',
-                                    reply_markup=user_kbs.currency_pairs_by_page(user.otc, 1))
-        return
+        try:
+            await callback.message.edit_text('<b>Теперь необходимо выбрать точный актив для анализа.\n\n<blockquote>Примечание: сначала проверьте наличие актива на платформе Pocket Option, а затем получайте прогноз ✅</blockquote></b>',
+                                        reply_markup=user_kbs.currency_pairs_by_page(user.otc, 1))
+            return
+        except:
+            await callback.message.answer('<b>Теперь необходимо выбрать точный актив для анализа.\n\n<blockquote>Примечание: сначала проверьте наличие актива на платформе Pocket Option, а затем получайте прогноз ✅</blockquote></b>',
+                                        reply_markup=user_kbs.currency_pairs_by_page(user.otc, 1))
+            return
     
     page = int(callback.data.split('_')[-1])
-    await callback.message.edit_text('<b>Теперь необходимо выбрать точный актив для анализа.\n\n<blockquote>Примечание: сначала проверьте наличие актива на платформе Pocket Option, а затем получайте прогноз ✅</blockquote></b>',
-                                    reply_markup=user_kbs.currency_pairs_by_page(user.otc, page))
-
+    try:
+        await callback.message.edit_text('<b>Теперь необходимо выбрать точный актив для анализа.\n\n<blockquote>Примечание: сначала проверьте наличие актива на платформе Pocket Option, а затем получайте прогноз ✅</blockquote></b>',
+                                        reply_markup=user_kbs.currency_pairs_by_page(user.otc, page))
+    except:
+            await callback.message.answer('<b>Теперь необходимо выбрать точный актив для анализа.\n\n<blockquote>Примечание: сначала проверьте наличие актива на платформе Pocket Option, а затем получайте прогноз ✅</blockquote></b>',
+                                        reply_markup=user_kbs.currency_pairs_by_page(user.otc, 1))
+            return
 
 @router.callback_query(F.data.startswith('crypto'))
 async def crypto(callback: CallbackQuery, user_service: UserService):
@@ -67,13 +76,23 @@ async def crypto(callback: CallbackQuery, user_service: UserService):
     user = await user_service.get(callback.from_user.id)
     
     if len(callback.data.split('_')) < 2: # страница не указана
-        await callback.message.edit_text('<b>Теперь необходимо выбрать точный актив для анализа.\n\n<blockquote>Примечание: сначала проверьте наличие актива на платформе Pocket Option, а затем получайте прогноз ✅</blockquote></b>',
-                                    reply_markup=user_kbs.crypto_by_page(user.otc, 1))
-        return
+        try:
+            await callback.message.edit_text('<b>Теперь необходимо выбрать точный актив для анализа.\n\n<blockquote>Примечание: сначала проверьте наличие актива на платформе Pocket Option, а затем получайте прогноз ✅</blockquote></b>',
+                                        reply_markup=user_kbs.crypto_by_page(user.otc, 1))
+            return
+        except:
+            await callback.message.answer('<b>Теперь необходимо выбрать точный актив для анализа.\n\n<blockquote>Примечание: сначала проверьте наличие актива на платформе Pocket Option, а затем получайте прогноз ✅</blockquote></b>',
+                                        reply_markup=user_kbs.crypto_by_page(user.otc, 1))
+            return
     
     page = int(callback.data.split('_')[-1])
-    await callback.message.edit_text('<b>Теперь необходимо выбрать точный актив для анализа.\n\n<blockquote>Примечание: сначала проверьте наличие актива на платформе Pocket Option, а затем получайте прогноз ✅</blockquote></b>',
-                                    reply_markup=user_kbs.crypto_by_page(user.otc, page))
+    try:
+        await callback.message.edit_text('<b>Теперь необходимо выбрать точный актив для анализа.\n\n<blockquote>Примечание: сначала проверьте наличие актива на платформе Pocket Option, а затем получайте прогноз ✅</blockquote></b>',
+                                        reply_markup=user_kbs.crypto_by_page(user.otc, page))
+    except:
+            await callback.message.answer('<b>Теперь необходимо выбрать точный актив для анализа.\n\n<blockquote>Примечание: сначала проверьте наличие актива на платформе Pocket Option, а затем получайте прогноз ✅</blockquote></b>',
+                                        reply_markup=user_kbs.crypto_by_page(user.otc, 1))
+            return
 
 
 @router.callback_query(F.data.startswith('indices'))
@@ -83,13 +102,23 @@ async def indeces(callback: CallbackQuery, user_service: UserService):
     user = await user_service.get(callback.from_user.id)
     
     if len(callback.data.split('_')) < 2: # страница не указана
-        await callback.message.edit_text('<b>Теперь необходимо выбрать точный актив для анализа.\n\n<blockquote>Примечание: сначала проверьте наличие актива на платформе Pocket Option, а затем получайте прогноз ✅</blockquote></b>',
-                                    reply_markup=user_kbs.indices_by_page(user.otc, 1))
-        return
-    
+        try:
+            await callback.message.edit_text('<b>Теперь необходимо выбрать точный актив для анализа.\n\n<blockquote>Примечание: сначала проверьте наличие актива на платформе Pocket Option, а затем получайте прогноз ✅</blockquote></b>',
+                                        reply_markup=user_kbs.indices_by_page(user.otc, 1))
+            return
+        except:
+            await callback.message.answer('<b>Теперь необходимо выбрать точный актив для анализа.\n\n<blockquote>Примечание: сначала проверьте наличие актива на платформе Pocket Option, а затем получайте прогноз ✅</blockquote></b>',
+                                        reply_markup=user_kbs.indices_by_page(user.otc, 1))
+            return
+        
     page = int(callback.data.split('_')[-1])
-    await callback.message.edit_text('<b>Теперь необходимо выбрать точный актив для анализа.\n\n<blockquote>Примечание: сначала проверьте наличие актива на платформе Pocket Option, а затем получайте прогноз ✅</blockquote></b>',
-                                    reply_markup=user_kbs.indices_by_page(user.otc, page))
+    try:
+        await callback.message.edit_text('<b>Теперь необходимо выбрать точный актив для анализа.\n\n<blockquote>Примечание: сначала проверьте наличие актива на платформе Pocket Option, а затем получайте прогноз ✅</blockquote></b>',
+                                        reply_markup=user_kbs.indices_by_page(user.otc, page))
+    except:
+            await callback.message.answer('<b>Теперь необходимо выбрать точный актив для анализа.\n\n<blockquote>Примечание: сначала проверьте наличие актива на платформе Pocket Option, а затем получайте прогноз ✅</blockquote></b>',
+                                        reply_markup=user_kbs.indices_by_page(user.otc, 1))
+            return
 
 
 @router.callback_query(F.data.startswith('commodities'))
@@ -99,14 +128,23 @@ async def commodities(callback: CallbackQuery, user_service: UserService):
     user = await user_service.get(callback.from_user.id)
     
     if len(callback.data.split('_')) < 2: # страница не указана
-        await callback.message.edit_text('<b>Теперь необходимо выбрать точный актив для анализа.\n\n<blockquote>Примечание: сначала проверьте наличие актива на платформе Pocket Option, а затем получайте прогноз ✅</blockquote></b>',
-                                    reply_markup=user_kbs.commodities_by_page(user.otc, 1))
-        return
+        try:
+            await callback.message.edit_text('<b>Теперь необходимо выбрать точный актив для анализа.\n\n<blockquote>Примечание: сначала проверьте наличие актива на платформе Pocket Option, а затем получайте прогноз ✅</blockquote></b>',
+                                        reply_markup=user_kbs.commodities_by_page(user.otc, 1))
+            return
+        except:
+            await callback.message.answer('<b>Теперь необходимо выбрать точный актив для анализа.\n\n<blockquote>Примечание: сначала проверьте наличие актива на платформе Pocket Option, а затем получайте прогноз ✅</blockquote></b>',
+                                        reply_markup=user_kbs.commodities_by_page(user.otc, 1))
+            return
     
     page = int(callback.data.split('_')[-1])
-    await callback.message.edit_text('<b>Теперь необходимо выбрать точный актив для анализа.\n\n<blockquote>Примечание: сначала проверьте наличие актива на платформе Pocket Option, а затем получайте прогноз ✅</blockquote></b>',
-                                    reply_markup=user_kbs.commodities_by_page(user.otc, page))
-
+    try:
+        await callback.message.edit_text('<b>Теперь необходимо выбрать точный актив для анализа.\n\n<blockquote>Примечание: сначала проверьте наличие актива на платформе Pocket Option, а затем получайте прогноз ✅</blockquote></b>',
+                                        reply_markup=user_kbs.commodities_by_page(user.otc, page))
+    except:
+            await callback.message.answer('<b>Теперь необходимо выбрать точный актив для анализа.\n\n<blockquote>Примечание: сначала проверьте наличие актива на платформе Pocket Option, а затем получайте прогноз ✅</blockquote></b>',
+                                        reply_markup=user_kbs.commodities_by_page(user.otc, 1))
+            return
 
 @router.callback_query(F.data.startswith('stocks'))
 async def stocks(callback: CallbackQuery, user_service: UserService):
@@ -115,13 +153,23 @@ async def stocks(callback: CallbackQuery, user_service: UserService):
     user = await user_service.get(callback.from_user.id)
     
     if len(callback.data.split('_')) < 2: # страница не указана
-        await callback.message.edit_text('<b>Теперь необходимо выбрать точный актив для анализа.\n\n<blockquote>Примечание: сначала проверьте наличие актива на платформе Pocket Option, а затем получайте прогноз ✅</blockquote></b>',
-                                    reply_markup=user_kbs.stocks_by_page(user.otc, 1))
-        return
+        try:
+            await callback.message.edit_text('<b>Теперь необходимо выбрать точный актив для анализа.\n\n<blockquote>Примечание: сначала проверьте наличие актива на платформе Pocket Option, а затем получайте прогноз ✅</blockquote></b>',
+                                        reply_markup=user_kbs.stocks_by_page(user.otc, 1))
+            return
+        except:
+            await callback.message.answer('<b>Теперь необходимо выбрать точный актив для анализа.\n\n<blockquote>Примечание: сначала проверьте наличие актива на платформе Pocket Option, а затем получайте прогноз ✅</blockquote></b>',
+                                        reply_markup=user_kbs.stocks_by_page(user.otc, 1))
+            return
     
     page = int(callback.data.split('_')[-1])
-    await callback.message.edit_text('<b>Теперь необходимо выбрать точный актив для анализа.\n\n<blockquote>Примечание: сначала проверьте наличие актива на платформе Pocket Option, а затем получайте прогноз ✅</blockquote></b>',
-                                    reply_markup=user_kbs.stocks_by_page(user.otc, page))
+    try:
+        await callback.message.edit_text('<b>Теперь необходимо выбрать точный актив для анализа.\n\n<blockquote>Примечание: сначала проверьте наличие актива на платформе Pocket Option, а затем получайте прогноз ✅</blockquote></b>',
+                                        reply_markup=user_kbs.stocks_by_page(user.otc, page))
+    except:
+            await callback.message.answer('<b>Теперь необходимо выбрать точный актив для анализа.\n\n<blockquote>Примечание: сначала проверьте наличие актива на платформе Pocket Option, а затем получайте прогноз ✅</blockquote></b>',
+                                        reply_markup=user_kbs.stocks_by_page(user.otc, 1))
+            return
 
 
 @router.callback_query(F.data.startswith('get_forecast'))
@@ -160,7 +208,7 @@ async def period(callback: CallbackQuery, state: FSMContext, user_service: UserS
     
     forecast = 'повышение' if randint(0, 1) else 'понижение'
     
-    await sleep(randint(10, 20))
+    await sleep(randint(8, 14))
     
     image = FSInputFile('images/up.jpg') if forecast == 'повышение' else FSInputFile('images/down.jpg')
     caption = "<b>💼 Прогноз по активу:</b> <i><b>{active}</b></i>\n<b>Направление:</b> <i><b>{forecast}</b></i>\n<b>Таймфрейм:</b> <i><b>{period}</b></i>\n\n<blockquote><b>Самая высокая проходимость прогнозов достигается, когда вы входите в сделку как можно быстрее. Задержка снижает эффективность — действуйте оперативно!</b></blockquote>"
