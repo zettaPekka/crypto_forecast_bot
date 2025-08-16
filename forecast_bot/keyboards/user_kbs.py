@@ -6,38 +6,41 @@ import math
 from config import *
 
 
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+
 reg_kb = InlineKeyboardMarkup(inline_keyboard=[
-    [InlineKeyboardButton(text='Создать аккаунт', url='https://u3.shortink.io/pwa?utm_campaign=825395&utm_source=affiliate&utm_medium=sr&a=e0yBQmescshMRL&ac=j1ko')]
+    [InlineKeyboardButton(text='🚀 Создать аккаунт', url='https://u3.shortink.io/pwa?utm_campaign=825395&utm_source=affiliate&utm_medium=sr&a=e0yBQmescshMRL&ac=j1ko')]
 ])
 
 start_left_kb = InlineKeyboardMarkup(inline_keyboard=[
-    [InlineKeyboardButton(text='Получить доступ', callback_data='get_access'),
-    InlineKeyboardButton(text='Помощь', url='https://fdfsffff.ru')]
+    [InlineKeyboardButton(text='🔓 Получить доступ', callback_data='get_access'),
+        InlineKeyboardButton(text='🆘 Помощь', url='https://t.me/jiko_trade')]
 ])
 
 check_dep_kb = InlineKeyboardMarkup(inline_keyboard=[
-    [InlineKeyboardButton(text='Проверить депозит', callback_data='check_dep')]
+    [InlineKeyboardButton(text='🔍 Проверить депозит', callback_data='check_dep')]
 ])
 
 main_kb = InlineKeyboardMarkup(inline_keyboard=[
-    [InlineKeyboardButton(text='Получить прогноз', callback_data='forecast_menu')],
-    [InlineKeyboardButton(text='Новости', callback_data='news')],
-    [InlineKeyboardButton(text='Промокоды', callback_data='promo')],
-    [InlineKeyboardButton(text='Статистика', callback_data='statistics')],
-    [InlineKeyboardButton(text='Обучение', url='https://dsfsfsdf.re')]
+    [InlineKeyboardButton(text='🎯 Получить прогноз', callback_data='forecast_menu')],
+    [InlineKeyboardButton(text='📰 Новости', callback_data='news')],
+    [InlineKeyboardButton(text='🎁 Промокоды', callback_data='promo')],
+    [InlineKeyboardButton(text='📊 Статистика', callback_data='statistics')],
+    [InlineKeyboardButton(text='🎓 Обучение', url='https://dsfsfsdf.re')]
 ])
 
+
 def forecast_menu(otc: bool):
-    otc = 'OTC ✅' if otc else 'OTC ❌'
+    otc_status = '✅ OTC ВКЛ' if otc else '❌ OTC ВЫКЛ'
     
     return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text=otc, callback_data='change_otc'),
-            InlineKeyboardButton(text='Меню', callback_data='menu')],
-        [InlineKeyboardButton(text='Валютные пары', callback_data='currency_pairs')],
-        [InlineKeyboardButton(text='Криптовалюта', callback_data='crypto')],
-        [InlineKeyboardButton(text='Индексы', callback_data='indices')],
-        [InlineKeyboardButton(text='Сырьевые товары', callback_data='commodities')],
-        [InlineKeyboardButton(text='Акции', callback_data='stocks')]
+        [InlineKeyboardButton(text=otc_status, callback_data='change_otc'),
+            InlineKeyboardButton(text='🏠 Меню', callback_data='menu')],
+        [InlineKeyboardButton(text='💱 Валютные пары', callback_data='currency_pairs')],
+        [InlineKeyboardButton(text='🪙 Криптовалюта', callback_data='crypto')],
+        [InlineKeyboardButton(text='📈 Индексы', callback_data='indices')],
+        [InlineKeyboardButton(text='📦 Сырьевые товары', callback_data='commodities')],
+        [InlineKeyboardButton(text='💼 Акции', callback_data='stocks')]
     ])
 
 def currency_pairs_by_page(otc: bool, page: int):

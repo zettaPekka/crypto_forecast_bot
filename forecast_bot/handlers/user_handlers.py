@@ -29,27 +29,27 @@ async def start_handler(message: Message, user_service: UserService, trader_data
     trader_data = await trader_data_service.get_by_tg_id(tg_id)
     
     if not trader_data:
-        image = FSInputFile('images/photo.jpg')
+        image = FSInputFile('images/jikotrade.jpg')
         text = "<b>Добро пожаловать в торгового робота JIKO TRADE!</b>\n\n<b>Для получения доступа нажми на кнопку ниже.</b>\n\n<b>Что вы получаете:\n<blockquote>✅ Сигналы на выбранный актив с любым периодом\n✅ Возможность выбора OTC\n✅ Актуальные новости\n✅ Честную и открытую статистику\n✅ Новые промокоды и бонусы</blockquote></b>\n\n<b>Скорей присоединяйся 👇</b>"
         await message.answer_photo(image, caption=text,
                                 reply_markup=user_kbs.start_left_kb)
         return
 
     if trader_data.balance > 0:
-        image = FSInputFile('images/photo.jpg')
+        image = FSInputFile('images/menu.jpg')
         await message.answer_photo(image, caption='<b>У вас есть полный доступ к функционалу торгового робота. Для продолжения используйте кнопки ниже или команды:\n\n<blockquote>/news – 📰 Новости \n/forecast – 📊 Получить прогноз</blockquote></b>',
                                     reply_markup=user_kbs.main_kb)
         return
     
-    image = FSInputFile('images/photo.jpg')
-    await message.answer_photo(image, caption='Вы зарегестрированы, пополните баланс на любую сумму и нажмите кнопку ниже чтобы проверить депозит',
+    image = FSInputFile('images/dep.jpg')
+    await message.answer_photo(image, caption='<b>Вы уже подтвердили свой ID! Теперь осталось пополнить баланс и проверить по кнопке ниже</b>',
                             reply_markup=user_kbs.check_dep_kb)
 
 
 @router.callback_query(F.data == 'get_access')
 async def get_access(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
-    image = FSInputFile('images/photo.jpg')
+    image = FSInputFile('images/reg.jpg')
     text = "<b>Для получения доступа необходимо создать аккаунт по кнопке ниже (обязательно, иначе бот не сможет подтвердить доступ) или по ссылке.\n\nПосле создания аккаунта напиши свой трейдер-ID ниже\n\n<blockquote>Промо – <code>HJM627</code> (+60% к пополнению)</blockquote></b>"
     image = InputMediaPhoto(media=image, caption=text)
     await callback.message.edit_media(image)
@@ -77,8 +77,13 @@ async def check_dep(callback: CallbackQuery, trader_data_service: TraderDataServ
     
     trader_data = await trader_data_service.get_by_tg_id(callback.from_user.id)
     
+    try:
+        await callback.message.delete()
+    except:
+        pass
+    
     if trader_data.balance > 0:
-        image = FSInputFile('images/photo.jpg')
+        image = FSInputFile('images/menu.jpg')
         await callback.message.answer_photo(image, caption='<b>Успешно! Теперь у вас есть полный доступ к торговому боту, можете получать прогнозы 24/7 ✨\n\n<blockquote>/news – 📰 Новости \n/forecast – 📊 Получить прогноз</blockquote></b>',
                                             reply_markup=user_kbs.main_kb)
         return
@@ -169,7 +174,7 @@ async def change_otc(callback: CallbackQuery, user_service: UserService):
 @router.callback_query(F.data == 'menu')
 async def menu(callback: CallbackQuery):
     await callback.answer()
-    image = FSInputFile('images/photo.jpg')
+    image = FSInputFile('images/menu.jpg')
     try:
         await callback.message.delete()
     except:
