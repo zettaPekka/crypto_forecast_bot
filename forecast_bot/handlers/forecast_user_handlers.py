@@ -142,7 +142,7 @@ async def period(callback: CallbackQuery, state: FSMContext, user_service: UserS
         '60m': 3600
     }
     
-    forecast = 'повышение' if randint(0, 1) else 'понижение'
+    forecast = 'повышение 📈' if randint(0, 1) else 'понижение 📉'
     
     await sleep(randint(8, 14))
     
@@ -161,5 +161,5 @@ async def period(callback: CallbackQuery, state: FSMContext, user_service: UserS
     await sleep(time_dict[period])
     
     image = FSInputFile('images/completed.jpg')
-    await forecast_message.reply_photo(image, caption=f'<b>Сделка по активу <i>{active}</i> на {forecast} завершена!</b>',
+    await forecast_message.reply_photo(image, caption=f'<b>Сделка по активу <i>{active}</i> на {forecast} завершена, можете получить новый прогноз\n\n<blockquote>В случае если сделка завершилась неудачно, рекомендуем запросить новый прогноз по этому же активу, что бы бот мог проанализировать актуальную информацию</blockquote></b>',
                                         reply_markup=user_kbs.forecast_menu(user.otc))
