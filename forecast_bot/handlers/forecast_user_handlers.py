@@ -2,7 +2,6 @@ from aiogram import Router, F
 from aiogram.filters import Command
 from aiogram.types import Message, CallbackQuery, FSInputFile
 from aiogram.fsm.context import FSMContext
-from aiogram.types import InlineKeyboardMarkup
 
 from forecast_bot.middlewares.db_di import DatabaseDI
 from database.services.user_service import UserService
@@ -11,6 +10,7 @@ from forecast_bot.keyboards import user_kbs
 
 from random import randint
 from asyncio import sleep
+from typing import Callable
 
 
 router = Router()
@@ -18,7 +18,7 @@ router.message.middleware(DatabaseDI())
 router.callback_query.middleware(DatabaseDI())
 
 
-async def choose_active(callback: CallbackQuery, markup: callable, otc: bool, page: int):
+async def choose_active(callback: CallbackQuery, markup: Callable, otc: bool, page: int):
     try:
         await callback.message.edit_text('<b>Теперь необходимо выбрать точный актив для анализа.\n\n<blockquote>Примечание: сначала проверьте наличие актива на платформе Pocket Option, а затем получайте прогноз ✅</blockquote></b>',
                                         reply_markup=markup(otc, page))
