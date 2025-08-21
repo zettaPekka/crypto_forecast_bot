@@ -58,57 +58,23 @@ async def send_mails(message: Message, state: FSMContext, user_service: UserServ
     users = await user_service.get_all_users()
     users_id = [user.tg_id for user in users]
     
-    succes_users = 0
-    if message.content_type == ContentType.TEXT:
+    message_funcs_by_type = {
+        ContentType.TEXT: lambda bot, user_id, message: bot.send_message(user_id, message.text),
+        ContentType.PHOTO: lambda bot, user_id, message: bot.send_photo(user_id, photo=message.photo[-1].file_id, caption=message.caption),
+        ContentType.VIDEO: lambda bot, user_id, message: bot.send_video(user_id, video=message.video.file_id, caption=message.caption),
+        ContentType.STICKER: lambda bot, user_id, message: bot.send_sticker(user_id, sticker=message.sticker.file_id),
+        ContentType.ANIMATION: lambda bot, user_id, message: bot.send_animation(user_id, animation=message.animation.file_id, caption=message.caption),
+        ContentType.VIDEO_NOTE: lambda bot, user_id, message: bot.send_video_note(user_id, video_note=message.video_note.file_id),
+    }
+    if message.content_type in message_funcs_by_type:
         await state.clear()
+        succes_users = 0
         for user_id in users_id:
             try:
-                await bot.send_message(user_id, message.text)
+                await message_funcs_by_type[message.content_type](bot, user_id, message)
                 succes_users += 1
             except:
                 pass
-    elif message.content_type == ContentType.PHOTO:
-        await state.clear()
-        for user_id in users_id:
-            try:
-                await bot.send_photo(user_id, photo=message.photo[-1].file_id, caption=message.caption)
-                succes_users += 1
-            except:
-                pass
-    elif message.content_type == ContentType.VIDEO:
-        await state.clear()
-        for user_id in users_id:
-            try:
-                await bot.send_video(user_id, video=message.video.file_id, caption=message.caption)
-                succes_users += 1
-            except:
-                pass
-    elif message.content_type == ContentType.STICKER:
-        await state.clear()
-        for user_id in users_id:
-            try:
-                await bot.send_sticker(user_id, sticker=message.sticker.file_id)
-                succes_users += 1
-            except:
-                pass
-    elif message.content_type == ContentType.ANIMATION:
-        await state.clear()
-        for user_id in users_id:
-            try:
-                await bot.send_animation(user_id, animation=message.animation.file_id, caption=message.caption)
-                succes_users += 1
-            except:
-                pass
-    elif message.content_type == ContentType.VIDEO_NOTE:
-        await state.clear()
-        for user_id in users_id:
-            try:
-                await bot.send_video_note(user_id, video_note=message.video_note.file_id)
-                succes_users += 1
-            except:
-                pass
+        await message.answer(f'Рассылка окончена, отправлено {succes_users} пользователям')
     else:
-        await message.answer('Неправильный формат, попробуй еще раз',
-                                    reply_markup=adm_kbs.back_kb)
-        return
-    await message.answer(f'Раcсылка окончена, отправлено {succes_users} пользователям')
+        await message.answer('Неправильный формат, попробуй еще раз', reply_markup=adm_kbs.back_kb)
