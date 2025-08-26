@@ -1,14 +1,11 @@
-ref_link = 'https://u3.shortink.io/pwa?utm_campaign=825395&utm_source=affiliate&utm_medium=sr&a=e0yBQmescshMRL&ac=j1ko'
-project_name = 'JIKO'
-article_link = 'https://telegra.ph/Informaciya--JIKO-TRADE-08-16'
-start_promo = 'HJM627'
-tg_username = 'jiko_trade'
+ref_link = ''
+project_name = ''
+article_link = ''
+start_promo = ''
+tg_username = ''
 
 promocodes = {
-    'HJM627': '60',
-    'MFJ914':'60',
-    'IGE413':'50',
-    'NEB662':'25'
+    'promo': '% bonus',
 }
 
 pairs = [
