@@ -10,7 +10,7 @@ from config import *
 
 reg_kb = InlineKeyboardMarkup(inline_keyboard=[
     [InlineKeyboardButton(text='🚀 Создать аккаунт', url=ref_link)],
-    [InlineKeyboardButton(text='🆘 Помощь', url='https://t.me/jiko_trade')]
+    [InlineKeyboardButton(text='🆘 Помощь', url=f'https://t.me/{tg_username}')]
 ])
 
 start_left_kb = InlineKeyboardMarkup(inline_keyboard=[
