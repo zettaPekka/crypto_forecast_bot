@@ -29,7 +29,7 @@ async def start_handler(message: Message, user_service: UserService, trader_data
     trader_data = await trader_data_service.get_by_tg_id(tg_id)
     
     if not trader_data:
-        image = FSInputFile('images/jikotrade.jpg')
+        image = FSInputFile('images/name.jpg')
         text = f"<b>Добро пожаловать в торгового робота {project_name} TRADE!</b>\n\n<b>Перед тем как получить доступ рекомендуем прочитать обучающую статью ниже\n\nДля получения доступа нажми на соответствующую кнопку ниже.</b>\n\n<b>Что вы получаете:\n<blockquote>✅ Сигналы на выбранный актив с любым периодом\n✅ Возможность выбора OTC\n✅ Актуальные новости\n✅ Честную и открытую статистику\n✅ Новые промокоды и бонусы</blockquote></b>\n\n<b>Скорей присоединяйся 👇</b>"
         await message.answer_photo(image, caption=text,
                                 reply_markup=user_kbs.start_left_kb)
