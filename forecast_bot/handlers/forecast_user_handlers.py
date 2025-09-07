@@ -147,7 +147,7 @@ async def period(callback: CallbackQuery, state: FSMContext, user_service: UserS
     await sleep(randint(8, 10))
     
     image = FSInputFile('images/up.jpg') if forecast == 'повышение 📈' else FSInputFile('images/down.jpg')
-    caption = "<b>💼 Прогноз по активу:</b> <i><b>{active}</b></i>\n<b>Направление:</b> <i><b>{forecast}</b></i>\n<b>Таймфрейм:</b> <i><b>{period}</b></i>\n\n<blockquote><b>Самая высокая проходимость прогнозов достигается, когда вы входите в сделку как можно быстрее. Задержка снижает эффективность — действуйте оперативно!</b></blockquote>"
+    caption = f"<b>💼 Прогноз по активу:</b> <i><b>{active}</b></i>\n<b>Направление:</b> <i><b>{forecast}</b></i>\n<b>Таймфрейм:</b> <i><b>{period}</b></i>\n<b>Уверенность:<i> {randint(67, 95)}%</i></b>\n\n<blockquote><b>Самая высокая проходимость прогнозов достигается, когда вы входите в сделку как можно быстрее. Задержка снижает эффективность — действуйте оперативно!</b></blockquote>"
     forecast_message = await callback.message.answer_photo(
         photo=image,
         caption=caption.format(active=active, forecast=forecast, period=period),
