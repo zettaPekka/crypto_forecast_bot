@@ -30,14 +30,14 @@ async def start_handler(message: Message, user_service: UserService, trader_data
     
     if not trader_data:
         image = FSInputFile('images/name.jpg')
-        text = f"<b>Добро пожаловать в торгового робота {project_name} TRADE!</b>\n\n<b>Перед тем как получить доступ рекомендуем прочитать обучающую статью ниже\n\nДля получения доступа нажми на соответствующую кнопку ниже.</b>\n\n<b>Что вы получаете:\n<blockquote>✅ Сигналы на выбранный актив с любым периодом\n✅ Возможность выбора OTC\n✅ Актуальные новости\n✅ Честную и открытую статистику\n✅ Новые промокоды и бонусы</blockquote></b>\n\n<b>Скорей присоединяйся 👇</b>"
+        text = f"<b>Добро пожаловать в торгового робота {project_name} TRADE!</b>\n\n<b>Перед тем как получить доступ рекомендуем прочитать обучающую статью ниже\n\nДля получения доступа нажми на соответствующую кнопку ниже.</b>\n\n<b>Что вы получаете:\n<blockquote>✅ Сигналы на выбранный актив с любым периодом\n✅ Возможность выбора OTC\n✅ Актуальные новости\n✅ Честную и открытую статистику\n✅ Новые промокоды и бонусы\n✅ Возможность заработка без вложений - /free</blockquote></b>\n\n<b>Скорей присоединяйся 👇</b>"
         await message.answer_photo(image, caption=text,
                                 reply_markup=user_kbs.start_left_kb)
         return
 
     if trader_data.balance > 0:
         image = FSInputFile('images/menu.jpg')
-        await message.answer_photo(image, caption='<b>У вас есть полный доступ к функционалу торгового робота. Для продолжения используйте кнопки ниже или команды:\n\n<blockquote>/news – 📰 Новости \n/forecast – 📊 Получить прогноз</blockquote></b>',
+        await message.answer_photo(image, caption='<b>У вас есть полный доступ к функционалу торгового робота. Для продолжения используйте кнопки ниже или команды:\n\n<blockquote>/news – 📰 Новости \n/forecast – 📊 Получить прогноз\n/free - 👀 Начать без вложений</blockquote></b>',
                                     reply_markup=user_kbs.main_kb)
         return
     
@@ -50,7 +50,7 @@ async def start_handler(message: Message, user_service: UserService, trader_data
 async def get_access(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
     image = FSInputFile('images/reg.jpg')
-    text = f"<b>Для получения доступа необходимо создать аккаунт по кнопке ниже (обязательно, иначе бот не сможет подтвердить доступ) или по <a href='{ref_link}'>ссылке</a>.\n\nПосле создания аккаунта напиши свой трейдер-ID ниже\n\n<blockquote>Промо – <code>{start_promo}</code> (+60% к пополнению)</blockquote></b>"
+    text = f"<b>Для получения доступа необходимо создать аккаунт по кнопке ниже (обязательно, иначе бот не сможет подтвердить доступ) или по <a href='{ref_link}'>ссылке</a>.\n\nПосле создания аккаунта напиши свой трейдер-ID ниже\n<blockquote>Промо – <code>{start_promo}</code> (+60% к пополнению)</blockquote>\n\nУказывать ID нужно только цифрами без самого слова «id»\nПример: <code>234873438</code></b>"
     image = InputMediaPhoto(media=image, caption=text)
     await callback.message.edit_media(image, reply_markup=user_kbs.reg_kb)
     await state.set_state(UserDataState.trader_id)
@@ -62,12 +62,12 @@ async def check_trader_id(message: Message, trader_data_service: TraderDataServi
     res = await trader_data_service.check_trader_id(trader_id, message.from_user.id)
     
     if res:
-        await message.answer(f'<b>✔ Отлично ID {trader_id} привязан! Теперь необходимо пополнить баланс на любую сумму, так как бот выдает доступ только активным аккаунтам\n\nПри пополнении можешь использовать промокод <code>{start_promo}</code> который дает +60% к пополнению!\nПосле того как пополнил баланс жми кнопку ниже</b>',
+        await message.answer(f'<b>✔️ Отлично ID {trader_id} привязан! Теперь необходимо пополнить баланс на любую сумму, так как бот выдает доступ только активным аккаунтам\n\nПри пополнении можешь использовать промокод <code>{start_promo}</code> который дает +60% к пополнению!\nПосле того как пополнил баланс жми кнопку ниже</b>',
                                 reply_markup=user_kbs.check_dep_kb)
         await state.clear()
         return
     
-    await message.answer('<b>❌ К сожалению не удалось подвердить ID, скорее всего вы уже ранее создали аккаунт, в таком случае необходимо создать новый и прислать новый ID</b>',
+    await message.answer('<b>❌ К сожалению не удалось подвердить ID, скорее всего вы уже ранее создали аккаунт, в таком случае необходимо создать новый и прислать новый ID\n\nУказывать ID нужно только цифрами без самого слова «id»\nПример: <code>234873438</code></b>',
                             reply_markup=user_kbs.reg_kb)
 
 
@@ -84,7 +84,7 @@ async def check_dep(callback: CallbackQuery, trader_data_service: TraderDataServ
     
     if trader_data.balance > 0:
         image = FSInputFile('images/menu.jpg')
-        await callback.message.answer_photo(image, caption='<b>Успешно! Теперь у вас есть полный доступ к торговому боту, можете получать прогнозы 24/7 ✨\n\n<blockquote>/news – 📰 Новости \n/forecast – 📊 Получить прогноз</blockquote></b>',
+        await callback.message.answer_photo(image, caption='<b>Успешно! Теперь у вас есть полный доступ к торговому боту, можете получать прогнозы 24/7 ✨\n\n<blockquote>/news – 📰 Новости \n/forecast – 📊 Получить прогноз\n/free - 👀 Начать без вложений</blockquote></b>',
                                             reply_markup=user_kbs.main_kb)
         return
     
@@ -129,7 +129,6 @@ async def promo(message: Message, trader_data_service: TraderDataService):
     
     await message.answer(message_text)
 
-
 @router.callback_query(F.data == 'statistics')
 async def statistics(callback: CallbackQuery, stat_service: StatService):
     await callback.answer()
@@ -153,7 +152,7 @@ async def statistics(callback: CallbackQuery, stat_service: StatService):
     
     message_text = '<b>Открытая статистика за неделю</b>\n\n'
     for day in last_week[::-1]:
-        message_text += f'🕐 Дата: <i>{day.date}</i>\n✔ Профиты: <i>{day.profit}</i>\n❌ Минусы: <i>{day.loss}</i>\n♻️ Возврат: <i>{day.break_even}</i>\n<blockquote>Винрейт: {round(day.profit / (day.loss + day.profit) * 100)}%</blockquote>\n\n'
+        message_text += f'🕐 Дата: <i>{day.date}</i>\n✔️ Профиты: <i>{day.profit}</i>\n❌ Минусы: <i>{day.loss}</i>\n♻️ Возврат: <i>{day.break_even}</i>\n<blockquote>Винрейт: {round(day.profit / (day.loss + day.profit) * 100)}%</blockquote>\n\n'
     
     await callback.message.answer(message_text)
 
@@ -171,6 +170,7 @@ async def change_otc(callback: CallbackQuery, user_service: UserService):
     except:
         pass
 
+
 @router.callback_query(F.data == 'menu')
 async def menu(callback: CallbackQuery):
     await callback.answer()
@@ -179,5 +179,5 @@ async def menu(callback: CallbackQuery):
         await callback.message.delete()
     except:
         pass
-    await callback.message.answer_photo(image, caption='<b>У вас есть полный доступ к функционалу торгового робота. Для продолжения используйте кнопки ниже или команды:\n\n<blockquote>/news – 📰 Новости \n/forecast – 📊 Получить прогноз</blockquote></b>',
+    await callback.message.answer_photo(image, caption='<b>У вас есть полный доступ к функционалу торгового робота. Для продолжения используйте кнопки ниже или команды:\n\n<blockquote>/news – 📰 Новости \n/forecast – 📊 Получить прогноз\n/free - 👀 Начать без вложений</blockquote></b>',
                                         reply_markup=user_kbs.main_kb)

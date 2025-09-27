@@ -1,4 +1,4 @@
-from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
@@ -7,10 +7,9 @@ import math
 from config import *
 
 
-
 reg_kb = InlineKeyboardMarkup(inline_keyboard=[
     [InlineKeyboardButton(text='🚀 Создать аккаунт', url=ref_link)],
-    [InlineKeyboardButton(text='🆘 Помощь', url=f'https://t.me/{tg_username}')]
+    [InlineKeyboardButton(text='🆘 Помощь', url=f'https://t.me/{admin_username}')]
 ])
 
 start_left_kb = InlineKeyboardMarkup(inline_keyboard=[
@@ -27,9 +26,22 @@ main_kb = InlineKeyboardMarkup(inline_keyboard=[
     [InlineKeyboardButton(text='📰 Новости', callback_data='news')],
     [InlineKeyboardButton(text='🎁 Промокоды', callback_data='promo')],
     [InlineKeyboardButton(text='📊 Статистика', callback_data='statistics')],
-    [InlineKeyboardButton(text='🎓 Обучение', url=article_link)]
+    [InlineKeyboardButton(text='🎓 Обучение', url=article_link)],
+    [InlineKeyboardButton(text='📱 WEB APP', web_app=WebAppInfo(url='https://aigpttraderqq.ucoz.net/'))]
 ])
 
+
+affilate_videos_kb = InlineKeyboardMarkup(inline_keyboard=[
+    [InlineKeyboardButton(text='Посмотреть примеры видео 📹', callback_data='affilate_videos')]
+])
+
+affilate_bio_kb = InlineKeyboardMarkup(inline_keyboard=[
+    [InlineKeyboardButton(text='Заработать на просмотрах 👀', callback_data='affilate_earning')]
+])
+
+affilate_back_kb = InlineKeyboardMarkup(inline_keyboard=[
+    [InlineKeyboardButton(text='🔙 Назад', callback_data='affilate_back')],
+])
 
 def forecast_menu(otc: bool):
     otc_status = '✅ OTC ВКЛ' if otc else '❌ OTC ВЫКЛ'

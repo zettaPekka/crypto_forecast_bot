@@ -5,6 +5,7 @@ import uvicorn
 from forecast_bot.init_bot import bot
 from forecast_bot.handlers.user_handlers import router as user_router
 from forecast_bot.handlers.forecast_user_handlers import router as forecast_user_router
+from forecast_bot.handlers.affilate_handlers import router as affilate_router
 from forecast_bot.handlers.admin_handlers import router as admin_router
 from database.database import init_db
 from app.init_app import app
@@ -16,7 +17,7 @@ async def run_bot():
     await bot.delete_webhook(drop_pending_updates=True)
     
     dp = Dispatcher()
-    dp.include_routers(user_router, forecast_user_router, admin_router)
+    dp.include_routers(affilate_router, user_router, forecast_user_router, admin_router)
     
     await dp.start_polling(bot)
 

@@ -1,4 +1,7 @@
 __pycache__/
-.venv
+.venv/
 *.db
 .env
+config.py
+.images/
+.videos/
