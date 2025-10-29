@@ -47,7 +47,7 @@ async def forecast_menu(callback: CallbackQuery, user_service: UserService):
 async def forecast_menu(message: Message, user_service: UserService, trader_data_service: TraderDataService):
     user = await user_service.get(message.from_user.id)
     trader_data = await trader_data_service.get_by_tg_id(user.tg_id)
-    if trader_data:
+    if trader_data and trader_data.balance:
         await message.answer('<b>Выберите по какому разделу хотите получить прогноз.</b>',
                                         reply_markup=user_kbs.forecast_menu(user.otc))
         return
